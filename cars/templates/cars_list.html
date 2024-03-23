@@ -6,8 +6,9 @@
 
 {% block content %}
     <ul>
-        {% for car in cars_list %}
-            <li>{{ car }}</li>
+        {% for car in car_list %}
+            <li>
+                <a href="{% url 'cars_update' car.id %}">{{ car }}</a>
+            </li>
         {% endfor %}
-    </ul>
 {% endblock %}

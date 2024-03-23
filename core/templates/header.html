@@ -14,26 +14,38 @@
         </li>
       </ul>
       <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-        <li class="nav-item dropdown">
+        
+        {% if request.user.is_authenticated %}
+        <li class="nav-item dropdown me-2">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Аккаунт
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Профиль</a></li>
+            <li><a class="dropdown-item" href="{% url 'my_profile' %}">Профиль</a></li>
             <li><a class="dropdown-item" href="{% url 'cars_create' %}">Добавить авто</a></li>
             <li><a class="dropdown-item" href="#">Избранные авто</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Закладки</a></li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">USER_NAME</a>
-        </li>
+          <li class="nav-item me-2">
+            <a class="nav-link" href="{% url 'my_profile' %}" tabindex="-1" aria-disabled="true">{{ request.user.username }}</a>
+          </li>
+          <form class="d-flex" action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button class="btn btn-outline-light" type="submit">Выход</button>
+          </form>
+        {% else %}
+          <div class="login-button">
+            <a class="btn btn-outline-light me-2" href="{% url 'login' %}?next={{ request.path }}">Войти</a>
+          </div>
+          <div class="register-button">
+            <form class="d-flex me-2" action="{% url 'register' %}">
+              <button class="btn btn-outline-light" type="submit">Регистрация</button>
+            </form>
+          </div>
+        {% endif %}
       </ul>
-      <!-- <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
     </div>
   </div>
 </nav>

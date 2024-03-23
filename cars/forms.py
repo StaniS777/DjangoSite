@@ -2,7 +2,7 @@ from django import forms
 from cars.models import Car
 
 
-class CarCreateForm(forms.ModelForm):
+class CarCreateUpdateForm(forms.ModelForm):
     brand = forms.CharField(
         widget=forms.TextInput(
             attrs={"class": "form-control", 
@@ -38,7 +38,7 @@ class CarCreateForm(forms.ModelForm):
     instructions = forms.CharField(
         widget=forms.Textarea(
             attrs={"class": "form-control", 
-                   "placeholder": "Инструкции",
+                   "placeholder": "Информация по автомобилю",
                 }
         )
     )
@@ -51,3 +51,6 @@ class CarCreateForm(forms.ModelForm):
             "color",
             "instructions",
         ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.queryset = Car.objects.filter(id__startswith="O")
